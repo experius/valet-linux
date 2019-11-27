@@ -148,16 +148,15 @@ class Magento2ValetDriver extends ValetDriver
     {
         $this->checkMageMode($sitePath);
 
+        if ('production' === $this->mageMode) {
+            $sitePath.= DIRECTORY_SEPARATOR . 'pub';
+        }
+
         if (strpos($uri, '/elasticsearch.php') === 0) {
-            return $sitePath . DIRECTORY_SEPARATOR . 'pub' . DIRECTORY_SEPARATOR . 'elasticsearch.php';
+            return $sitePath . DIRECTORY_SEPARATOR . 'elasticsearch.php';
         }
 
-        if ('developer' === $this->mageMode) {
-            $_SERVER['DOCUMENT_ROOT'] = $sitePath;
-            return $sitePath . '/index.php';
-        }
-
-        $_SERVER['DOCUMENT_ROOT'] = $sitePath . '/pub';
-        return $sitePath . '/pub/index.php';
+        $_SERVER['DOCUMENT_ROOT'] = $sitePath;
+        return $sitePath . '/index.php';
     }
 }
