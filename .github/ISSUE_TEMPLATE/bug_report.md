@@ -7,6 +7,12 @@ assignees: ''
 
 ---
 
+**Basic info**
+
+| Distro (Name and version) | PHP Version | Valet version |
+| ------------------------- | ----------- | ------------- |
+| Ex: Manjaro 18.3          | 7.3.1       | 2.2.3         |
+
 - [ ] I've checked the issue queue and could not find anything similar to my bug.
 - [ ] I'm on the latest version of valet-linux (`valet --version`): `<Valet-Linux-Version>`
 - [ ] I've run `valet fix` and `valet install` after updating and before submitting my issue/feature.

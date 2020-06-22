@@ -8,10 +8,10 @@ use Valet\Contracts\PackageManager;
 use Valet\Contracts\ServiceManager;
 use Valet\PackageManagers\Apt;
 use Valet\PackageManagers\Dnf;
+use Valet\PackageManagers\Eopkg;
 use Valet\PackageManagers\PackageKit;
 use Valet\PackageManagers\Pacman;
 use Valet\PackageManagers\Yum;
-use Valet\PackageManagers\Eopkg;
 use Valet\ServiceManagers\LinuxService;
 use Valet\ServiceManagers\Systemd;
 
@@ -27,8 +27,8 @@ class Valet
     /**
      * Create a new Valet instance.
      *
-     * @param  CommandLine  $cli
-     * @param  Filesystem  $files
+     * @param CommandLine $cli
+     * @param Filesystem  $files
      */
     public function __construct(CommandLine $cli, Filesystem $files)
     {
@@ -43,7 +43,7 @@ class Valet
      */
     public function symlinkToUsersBin()
     {
-        $this->cli->run('ln -snf '.realpath(__DIR__.'/../../valet').' '.$this->valetBin);
+        $this->cli->run('ln -snf ' . dirname(__DIR__, 2) . '/valet' . ' ' . $this->valetBin);
     }
 
     /**
@@ -65,27 +65,28 @@ class Valet
      */
     public function extensions()
     {
-        if (! $this->files->isDir(VALET_HOME_PATH.'/Extensions')) {
+        if (!$this->files->isDir(VALET_HOME_PATH . '/Extensions')) {
             return [];
         }
 
-        return collect($this->files->scandir(VALET_HOME_PATH.'/Extensions'))
-                    ->reject(function ($file) {
-                        return is_dir($file);
-                    })
-                    ->map(function ($file) {
-                        return VALET_HOME_PATH.'/Extensions/'.$file;
-                    })
-                    ->values()->all();
+        return collect($this->files->scandir(VALET_HOME_PATH . '/Extensions'))
+            ->reject(static function ($file) {
+                return is_dir($file);
+            })
+            ->map(static function ($file) {
+                return VALET_HOME_PATH . '/Extensions/' . $file;
+            })
+            ->values()->all();
     }
 
     /**
      * Determine if this is the latest version of Valet.
      *
-     * @param  string  $currentVersion
+     * @param string $currentVersion
      * @return bool
+     * @throws \Httpful\Exception\ConnectionErrorException
      */
-    public function onLatestVersion($currentVersion)
+    public function onLatestVersion($currentVersion): bool
     {
         $response = \Httpful\Request::get($this->github)->send();
 
@@ -118,7 +119,7 @@ class Valet
      *
      * @return string
      */
-    public function getAvailablePackageManager()
+    public function getAvailablePackageManager(): string
     {
         return collect([
             Apt::class,
@@ -126,10 +127,10 @@ class Valet
             Pacman::class,
             Yum::class,
             PackageKit::class,
-            Eopkg::class
-        ])->first(function ($pm) {
+            Eopkg::class,
+        ])->first(static function ($pm) {
             return resolve($pm)->isAvailable();
-        }, function () {
+        }, static function () {
             throw new DomainException("No compatible package manager found.");
         });
     }
@@ -154,9 +155,9 @@ class Valet
         return collect([
             LinuxService::class,
             Systemd::class,
-        ])->first(function ($pm) {
+        ])->first(static function ($pm) {
             return resolve($pm)->isAvailable();
-        }, function () {
+        }, static function () {
             throw new DomainException("No compatible service manager found.");
         });
     }
