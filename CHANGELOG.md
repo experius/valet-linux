@@ -1,3 +1,21 @@
+## 3.0.0 (2020-02-11)
+
+[View Release](git@github.com:experius/valet-linux.git/commits/tag/3.0.0)
+
+*  [FEATURE] Added z-performance.ini *(Sam)*
+*  [FEATURE] - Add ElasticSearch support *(Cas Satter)*
+*  [REFACTOR] - Refactor sitePath variable *(Cas Satter)*
+*  [DOCS] - Add .github bug report and feature request templates *(Cas Satter)*
+*  [FEATURE] - Add default php.ini improvements *(Cas Satter)*
+*  [FEATURE] - Add xDebug .ini settings allowing xdebug to run remotely *(Cas Satter)*
+*  [FEATURE] - Add max xdebug nesting setting *(Cas Satter)*
+*  Update z-performance.ini to *(SamMorssinkhof)*
+*  [DOCS] Updated the CHANGELOG.md *(Cas Satter)*
+*  [FEATURE] - Add zend_extension xdebug.so to automatically start xdebug, this way you don't nessecarily have to add it to your php.ini *(Cas Satter)*
+*  [BUGFIX] - Revert Sam's attempt to fix *(Cas Satter)*
+*  Update composer.json *(Hexmage)*
+
+
 ## v2.1.10 (2019-10-11)
 
 [View Release](git@github.com:experius/valet-linux.git/commits/tag/v2.1.10)
