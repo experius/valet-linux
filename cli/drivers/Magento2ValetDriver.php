@@ -75,6 +75,11 @@ class Magento2ValetDriver extends ValetDriver
             exit;
         }
 
+        if (strpos($uri, '/csp_reporter.php') === 0) {
+            include($sitePath . DIRECTORY_SEPARATOR . 'pub' . DIRECTORY_SEPARATOR . 'csp_reporter.php');
+            exit;
+        }
+
         return false;
     }
 
@@ -152,6 +157,10 @@ class Magento2ValetDriver extends ValetDriver
 
         if (strpos($uri, '/elasticsearch.php') === 0) {
             return $sitePath . DIRECTORY_SEPARATOR . 'elasticsearch.php';
+        }
+
+        if (strpos($uri, '/csp_reporter.php') === 0) {
+            return $sitePath . DIRECTORY_SEPARATOR . 'csp_reporter.php';
         }
 
         if ('developer' === $this->mageMode) {
