@@ -1,15 +1,12 @@
 <?php
-
 class Magento2ValetDriver extends ValetDriver
 {
-
     /**
      * Holds the MAGE_MODE from app/etc/config.php or $ENV
      *
      * @var string
      */
     private $mageMode;
-
     /**
      * Determine if the driver serves the request.
      *
@@ -22,7 +19,6 @@ class Magento2ValetDriver extends ValetDriver
     {
         return file_exists($sitePath . '/bin/magento') && file_exists($sitePath . '/pub/index.php');
     }
-
     /**
      * Determine if the incoming request is for a static file.
      *
@@ -34,55 +30,30 @@ class Magento2ValetDriver extends ValetDriver
     public function isStaticFile($sitePath, $siteName, $uri)
     {
         $this->checkMageMode($sitePath);
-
         $uri = $this->handleForVersions($uri);
         $route = parse_url(substr($uri, 1))['path'];
-
         $pub = '';
-        if ('developer' === $this->mageMode) {
-            $pub = 'pub/';
-        }
-
         if (!$this->isPubDirectory($sitePath, $route, $pub)) {
             return false;
         }
-
         $magentoPackagePubDir = $sitePath;
-        if ('developer' !== $this->mageMode) {
             $magentoPackagePubDir .= '/pub';
-        }
-
         $file = $magentoPackagePubDir . '/' . $route;
-
         if (file_exists($file)) {
             return $magentoPackagePubDir . $uri;
         }
-
         if (strpos($route, $pub . 'static/') === 0) {
             $route = preg_replace('#' . $pub . 'static/#', '', $route, 1);
             $_GET['resource'] = $route;
             include $magentoPackagePubDir . '/' . $pub . 'static.php';
             exit;
         }
-
         if (strpos($route, $pub . 'media/') === 0) {
             include $magentoPackagePubDir . '/' . $pub . 'get.php';
             exit;
         }
-
-        if (strpos($uri, '/elasticsearch.php') === 0) {
-            include($sitePath . DIRECTORY_SEPARATOR . 'pub' . DIRECTORY_SEPARATOR . 'elasticsearch.php');
-            exit;
-        }
-
-        if (strpos($uri, '/csp_reporter.php') === 0) {
-            include($sitePath . DIRECTORY_SEPARATOR . 'pub' . DIRECTORY_SEPARATOR . 'csp_reporter.php');
-            exit;
-        }
-
         return false;
     }
-
     /**
      * Rewrite URLs that look like "versions12345/" to remove
      * the versions12345/ part
@@ -93,7 +64,6 @@ class Magento2ValetDriver extends ValetDriver
     {
         return preg_replace('/version\d*\//', '', $route);
     }
-
     /**
      * Determine the current MAGE_MODE
      *
@@ -105,11 +75,6 @@ class Magento2ValetDriver extends ValetDriver
             // We have already figure out mode, no need to check it again
             return;
         }
-        if (!file_exists($sitePath . '/index.php')) {
-            $this->mageMode = 'production'; // Can't use developer mode without index.php in project root
-
-            return;
-        }
         $mageConfig = [];
         if (file_exists($sitePath . '/app/etc/env.php')) {
             $mageConfig = require $sitePath . '/app/etc/env.php';
@@ -118,7 +83,6 @@ class Magento2ValetDriver extends ValetDriver
             $this->mageMode = $mageConfig['MAGE_MODE'];
         }
     }
-
     /**
      * Checks to see if route is referencing any directory inside pub. This is a dynamic check so that if any new
      * directories are added to pub this driver will not need to be updated.
@@ -132,17 +96,14 @@ class Magento2ValetDriver extends ValetDriver
     {
         $sitePath .= '/pub/';
         $dirs = glob($sitePath . '*', GLOB_ONLYDIR);
-
         $dirs = str_replace($sitePath, '', $dirs);
         foreach ($dirs as $dir) {
             if (strpos($route, $pub . $dir . '/') === 0) {
                 return true;
             }
         }
-
         return false;
     }
-
     /**
      * Get the fully resolved path to the application's front controller.
      *
@@ -153,23 +114,11 @@ class Magento2ValetDriver extends ValetDriver
      */
     public function frontControllerPath($sitePath, $siteName, $uri)
     {
+        if (strpos($uri, '/_intellij_phpdebug_validator.php') === 0) {
+            return $sitePath . '/_intellij_phpdebug_validator.php';
+        }
         $this->checkMageMode($sitePath);
-
-        if (strpos($uri, '/elasticsearch.php') === 0) {
-            return $sitePath . DIRECTORY_SEPARATOR . 'elasticsearch.php';
-        }
-
-        if (strpos($uri, '/csp_reporter.php') === 0) {
-            return $sitePath . DIRECTORY_SEPARATOR . 'csp_reporter.php';
-        }
-
-        if ('developer' === $this->mageMode) {
-            $_SERVER['DOCUMENT_ROOT'] = $sitePath;
-
-            return $sitePath . '/index.php';
-        }
         $_SERVER['DOCUMENT_ROOT'] = $sitePath . '/pub';
-
         return $sitePath . '/pub/index.php';
     }
 }
