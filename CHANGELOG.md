@@ -1,3 +1,43 @@
+## 3.1.0 (2020-06-22)
+
+[View Release](git@github.com:experius/valet-linux.git/commits/tag/3.1.0)
+
+*  Support global 6.x Laravel components *(Joaquín Marcher)*
+*  Update valet.php *(Joaquín Marcher)*
+*  Prevent FPM to die when a ton of requests are made per second *(Joaquin Marcher)*
+*  Bump version *(Joaquin Marcher)*
+*  FIX: Update VALET_STATIC_PREFIX when changing the port *(Joaquin Marcher)*
+*  Bump version *(Joaquin Marcher)*
+*  Update ngrok to 2.3.35 *(Joaquin Marcher)*
+*  Add small optimisations *(Joaquin Marcher)*
+*  Reformat code *(Joaquin Marcher)*
+*  Add `use` command to sudo *(Joaquin Marcher)*
+*  Edit PHP-FPM config for Arch. *(Joaquin Marcher)*
+*  Bump version *(Joaquin Marcher)*
+*  Remove static from command closures *(Nenad Živanović)*
+*  Option used as a flag shouldn't have default value *(Nenad Živanović)*
+*  composer dependencies update *(Filipe Craveiro)*
+*  Symfony's 4.x Process component has deprecated passing a command string to the constructor, but older versions (which Valet's Composer constraints allow) don't have the fromShellCommandLine method. For more information, see: https://github.com/laravel/valet/pull/761 *(Filipe Craveiro)*
+*  Revert "Edit PHP-FPM config for Arch." *(Joaquin Marcher)*
+*  Create bug_report.md *(Joaquín Marcher)*
+*  rtrim() slashes for paths *(Joaquin Marcher)*
+*  Bump version *(Joaquin Marcher)*
+*  Edit php-fpm systemd config *(Joaquin Marcher)*
+*  Bump version *(Joaquin Marcher)*
+*  add dropIn override for systemd *(Muhammet Sait)*
+*  Added local network feature. *(Pushpak)*
+*  Update valet.php *(Joaquín Marcher)*
+*  Fix possible function redefinition *(Joaquin Marcher)*
+*  Version bump *(Joaquin Marcher)*
+*  Fix list of Eopkg installed packages. *(Joaquín Marcher)*
+*  Version bump Add compatibility with Laravel 7.0 *(Joaquín Marcher)*
+*  add options to query all nameservers *(Ethan Brace)*
+*  fix dns error *(Abdallah Samy)*
+*  Version Bump *(Joaquín Marcher)*
+*  [FEATURE] Added additional php script csp_reporter.php *(Lewis Voncken)*
+*  [DOCS] Updated the CHANGELOG.md *(Lewis Voncken)*
+
+
 ## 3.0.0 (2020-02-11)
 
 [View Release](git@github.com:experius/valet-linux.git/commits/tag/3.0.0)
