@@ -36,8 +36,7 @@ class Magento2ValetDriver extends ValetDriver
         if (!$this->isPubDirectory($sitePath, $route, $pub)) {
             return false;
         }
-        $magentoPackagePubDir = $sitePath;
-            $magentoPackagePubDir .= '/pub';
+        $magentoPackagePubDir = $sitePath . '/pub';
         $file = $magentoPackagePubDir . '/' . $route;
         if (file_exists($file)) {
             return $magentoPackagePubDir . $uri;
@@ -54,11 +53,11 @@ class Magento2ValetDriver extends ValetDriver
         }
         
         if (strpos($uri, '/elasticsearch.php') === 0) {
-            return $sitePath . DIRECTORY_SEPARATOR . 'elasticsearch.php';
+            return $magentoPackagePubDir . DIRECTORY_SEPARATOR . 'elasticsearch.php';
         }
 
         if (strpos($uri, '/csp_reporter.php') === 0) {
-            return $sitePath . DIRECTORY_SEPARATOR . 'csp_reporter.php';
+            return $magentoPackagePubDir . DIRECTORY_SEPARATOR . 'csp_reporter.php';
         }
         
         return false;
@@ -129,11 +128,11 @@ class Magento2ValetDriver extends ValetDriver
         $this->checkMageMode($sitePath);
         
         if (strpos($uri, '/elasticsearch.php') === 0) {
-            return $sitePath . DIRECTORY_SEPARATOR . 'elasticsearch.php';
+            return $sitePath . DIRECTORY_SEPARATOR . '/pub/elasticsearch.php';
         }
 
         if (strpos($uri, '/csp_reporter.php') === 0) {
-            return $sitePath . DIRECTORY_SEPARATOR . 'csp_reporter.php';
+            return $sitePath . DIRECTORY_SEPARATOR . '/pub/csp_reporter.php';
         }
         
         $_SERVER['DOCUMENT_ROOT'] = $sitePath . '/pub';
