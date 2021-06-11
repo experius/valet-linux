@@ -52,6 +52,15 @@ class Magento2ValetDriver extends ValetDriver
             include $magentoPackagePubDir . '/' . $pub . 'get.php';
             exit;
         }
+        
+        if (strpos($uri, '/elasticsearch.php') === 0) {
+            return $sitePath . DIRECTORY_SEPARATOR . 'elasticsearch.php';
+        }
+
+        if (strpos($uri, '/csp_reporter.php') === 0) {
+            return $sitePath . DIRECTORY_SEPARATOR . 'csp_reporter.php';
+        }
+        
         return false;
     }
     /**
@@ -118,6 +127,15 @@ class Magento2ValetDriver extends ValetDriver
             return $sitePath . '/_intellij_phpdebug_validator.php';
         }
         $this->checkMageMode($sitePath);
+        
+        if (strpos($uri, '/elasticsearch.php') === 0) {
+            return $sitePath . DIRECTORY_SEPARATOR . 'elasticsearch.php';
+        }
+
+        if (strpos($uri, '/csp_reporter.php') === 0) {
+            return $sitePath . DIRECTORY_SEPARATOR . 'csp_reporter.php';
+        }
+        
         $_SERVER['DOCUMENT_ROOT'] = $sitePath . '/pub';
         return $sitePath . '/pub/index.php';
     }
